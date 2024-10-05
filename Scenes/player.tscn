@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="1_4o0ll"]
 [ext_resource type="Texture2D" uid="uid://bnrwtvaqxdsm" path="res://icon.svg" id="2_1gkc8"]
-[ext_resource type="Texture2D" uid="uid://cdkqk2t8h34ag" path="res://Sprites/ShadowChar.png" id="2_sxbqn"]
+[ext_resource type="Texture2D" uid="uid://w3mrltq8kie7" path="res://Sprites/shadowchar3.png" id="2_p42cg"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oamh7"]
 radius = 8.0
@@ -19,6 +19,7 @@ height = 29.95
 collision_layer = 64
 collision_mask = 65
 script = ExtResource("1_4o0ll")
+SPEED = 100.0
 SpawnPos = NodePath("SpawnPos")
 followMouse = NodePath("FollowMouse")
 
@@ -27,7 +28,7 @@ shape = SubResource("CapsuleShape2D_oamh7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2, 0)
-texture = ExtResource("2_sxbqn")
+texture = ExtResource("2_p42cg")
 
 [node name="SpawnPos" type="Node2D" parent="."]
 position = Vector2(24, 0)

@@ -1,8 +1,8 @@
 extends CharacterBody2D
 
 
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
+@export var SPEED = 300.0
+@export var JUMP_VELOCITY = -400.0
 @export var bulletSpeed := 1000
 @onready var ShootObj = load("res://Scenes/tiny_creature.tscn")
 @export var SpawnPos : Node2D
