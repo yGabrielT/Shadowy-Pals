@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://dc47mfq4dr155"]
+
+[ext_resource type="Script" path="res://Scripts/AudioManager.gd" id="1_tbrg0"]
+[ext_resource type="AudioStream" uid="uid://m21o4hw1slom" path="res://Sound/SFX/jump_player.wav" id="2_tv3vx"]
+[ext_resource type="AudioStream" uid="uid://dqie3ic2kjsxs" path="res://Sound/SFX/leave.wav" id="3_1ryaj"]
+[ext_resource type="AudioStream" uid="uid://dft2nur7d40sb" path="res://Sound/SFX/shoot.wav" id="3_hopb5"]
+[ext_resource type="AudioStream" uid="uid://nvoevhevqk1w" path="res://Sound/SFX/getItem.wav" id="4_jsjsg"]
+[ext_resource type="AudioStream" uid="uid://citkhuy1evhfb" path="res://Sound/SFX/freeze.wav" id="6_wcasf"]
+
+[node name="AudioManager" type="Node"]
+script = ExtResource("1_tbrg0")
+
+[node name="jump_player" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_tv3vx")
+volume_db = -10.0
+
+[node name="leave" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1ryaj")
+volume_db = -10.0
+
+[node name="shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_hopb5")
+volume_db = -10.0
+
+[node name="pick" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_jsjsg")
+volume_db = -20.0
+pitch_scale = 0.5
+
+[node name="freeze" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_wcasf")
+volume_db = -10.0

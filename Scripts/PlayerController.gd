@@ -14,6 +14,10 @@ var closestBody;
 @onready var bag :=$Bag
 var bagArray : Array
 var UI : Control 
+@onready var sprite := $Sprite2D
+@onready var animationTree := $AnimationTree
+var isOnAir = false
+var froze;
 func _ready() -> void:
 	UI = get_tree().get_first_node_in_group("UI")
 	print(get_parent())
@@ -22,6 +26,14 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseMotion:
 		followMouse.global_position = event.global_position
+		if(event.global_position - self.global_position).x > 0:
+			self.sprite.flip_h = false
+			SpawnPos.position.x = 24
+			bag.position.x = -24
+		else:
+			self.sprite.flip_h = true
+			SpawnPos.position.x = -24
+			bag.position.x = 24
 	if Input.is_action_just_released("shoot"):
 		shoot(event.position)
 	if Input.is_action_just_released("freeze"):
@@ -34,6 +46,9 @@ func _physics_process(delta: float) -> void:
 	if followMouseArray.is_empty():
 		closestBody = null
 
+func _process(delta: float) -> void:
+	updateAnimations()
+
 func manageMovement(delta : float) -> void:
 	# Add the gravity.
 	if not is_on_floor():
@@ -42,6 +57,7 @@ func manageMovement(delta : float) -> void:
 	# Handle jump.
 	if Input.is_action_just_pressed("up") and is_on_floor():
 		velocity.y = JUMP_VELOCITY
+		AudioManager.jumpPlayer_sfx.play()
 
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
@@ -56,6 +72,7 @@ func manageMovement(delta : float) -> void:
 
 func shoot(mouse_pos : Vector2) -> void:
 	if bagArray.size() > 0:
+		AudioManager.shoot_sfx.play()
 		UI.currentCreaturesQuant -= 1
 		UI.updateCreatureCount()
 		var last = bagArray.size() - 1
@@ -71,6 +88,12 @@ func shoot(mouse_pos : Vector2) -> void:
 
 func freeze():
 	if closestBody != null and closestBody.canFreeze:
+		AudioManager.freeze_sfx.play()
+		froze = true
+		if !closestBody.freeze:
+			closestBody.state = closestBody.SQUARE
+		else:
+			closestBody.state = closestBody.NORMAL
 		closestBody.freeze = !closestBody.freeze
 		closestBody.set_collision_layer_value(1, closestBody.freeze)
 	#if shootInstance == null : return
@@ -85,6 +108,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			body.canFreeze = false
 			UI.currentCreaturesQuant += 1
 			UI.updateCreatureCount()
+			AudioManager.pick_sfx.play()
 
 func CheckWhichBodyIsCloserToCenter():
 	
@@ -95,7 +119,6 @@ func CheckWhichBodyIsCloserToCenter():
 		if currentdistance < ClosestDistance:
 			ClosestDistance = currentdistance
 			closestBody = followMouseArray[i]
-			print(closestBody)
 func _on_follow_mouse_body_entered(body: Node2D) -> void:
 	followMouseArray.append(body)
 
@@ -106,3 +129,27 @@ func _on_follow_mouse_body_exited(body: Node2D) -> void:
 func freezeBody(body):
 	body.freeze = true
 	body.reparent(bag)
+	
+func updateAnimations():
+	if velocity.x != 0:
+		animationTree["parameters/conditions/isWalking"] = true
+		animationTree["parameters/conditions/isIdle"] = false
+	else:
+		animationTree["parameters/conditions/isWalking"] = false
+		animationTree["parameters/conditions/isIdle"] = true
+	if (Input.is_action_just_pressed("up")):
+		animationTree["parameters/conditions/jump"] = true
+		isOnAir = true
+	else:
+		animationTree["parameters/conditions/jump"] = false
+	if isOnAir and is_on_floor():
+		animationTree["parameters/conditions/landed"] = true
+	else:
+		animationTree["parameters/conditions/landed"] = false
+	if froze:
+		froze = false
+		animationTree["parameters/conditions/freeze"] = true
+	else:
+		animationTree["parameters/conditions/freeze"] = false
+	
+	

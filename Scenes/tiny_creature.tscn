@@ -1,16 +1,29 @@
-[gd_scene load_steps=3 format=3 uid="uid://csbirigm8fxb6"]
+[gd_scene load_steps=6 format=3 uid="uid://csbirigm8fxb6"]
 
-[ext_resource type="Texture2D" uid="uid://bnrwtvaqxdsm" path="res://icon.svg" id="1_h4d6p"]
 [ext_resource type="Script" path="res://Scripts/creature.gd" id="1_s8xgc"]
+[ext_resource type="Texture2D" uid="uid://byiwrs1ypvcgq" path="res://Sprites/creature.png" id="2_ql0q5"]
+[ext_resource type="Texture2D" uid="uid://cnlioq3vlpf85" path="res://Sprites/creatureSquare.png" id="3_vxbm2"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_2ssf0"]
+radius = 4.48
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_14c0m"]
+size = Vector2(16, 8)
 
 [node name="TinyCreature" type="RigidBody2D" groups=["creature"]]
 collision_layer = 2
 script = ExtResource("1_s8xgc")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.14411, 0.0763425)
-texture = ExtResource("1_h4d6p")
+[node name="normal" type="Sprite2D" parent="."]
+texture = ExtResource("2_ql0q5")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-scale = Vector2(0.14411, 0.0763425)
-polygon = PackedVector2Array(59.1, -64, -59, -64, -63.8, -59, -64, 61, -60.3, 64, 59.6, 64, 63.9, 59, 64, -61.1)
+[node name="Square" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_vxbm2")
+
+[node name="normalCol" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_2ssf0")
+
+[node name="squareCol" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_14c0m")
+disabled = true
