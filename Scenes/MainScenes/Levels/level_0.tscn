@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://cs7acclhvnnni"]
+
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_ygjnf"]
+[ext_resource type="Texture2D" uid="uid://bnrwtvaqxdsm" path="res://icon.svg" id="2_ct4b5"]
+[ext_resource type="PackedScene" uid="uid://c225n3c7ujd5y" path="res://Scenes/player.tscn" id="3_f6y1m"]
+[ext_resource type="PackedScene" uid="uid://csbirigm8fxb6" path="res://Scenes/tiny_creature.tscn" id="4_846kk"]
+[ext_resource type="PackedScene" uid="uid://cadvdsi035n57" path="res://Scenes/ui.tscn" id="5_6xklm"]
+[ext_resource type="PackedScene" uid="uid://dv0n86hs1o4sa" path="res://Scenes/Exit.tscn" id="6_6refw"]
+
+[node name="main" type="Node2D"]
+script = ExtResource("1_ygjnf")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(160, 163)
+scale = Vector2(2.4938, 0.240001)
+
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D"]
+texture = ExtResource("2_ct4b5")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+polygon = PackedVector2Array(59.1, -64, -59, -64, -63.8, -59, -64, 61, -60.3, 64, 59.6, 64, 63.9, 59, 64, -61.1)
+
+[node name="Player" parent="." instance=ExtResource("3_f6y1m")]
+position = Vector2(24, 101)
+bulletSpeed = 500
+
+[node name="TinyCreature1" parent="." instance=ExtResource("4_846kk")]
+position = Vector2(179, 97)
+
+[node name="TinyCreature2" parent="." instance=ExtResource("4_846kk")]
+position = Vector2(87, 105)
+
+[node name="TinyCreature21" parent="." instance=ExtResource("4_846kk")]
+position = Vector2(121, 90)
+
+[node name="UI" parent="." groups=["UI"] instance=ExtResource("5_6xklm")]
+
+[node name="Exit" parent="." instance=ExtResource("6_6refw")]
+position = Vector2(297, 112)
+scale = Vector2(0.593732, 0.686048)

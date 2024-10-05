@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://c225n3c7ujd5y"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="1_4o0ll"]
+[ext_resource type="Texture2D" uid="uid://bnrwtvaqxdsm" path="res://icon.svg" id="2_1gkc8"]
+[ext_resource type="Texture2D" uid="uid://cdkqk2t8h34ag" path="res://Sprites/ShadowChar.png" id="2_sxbqn"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oamh7"]
+radius = 8.0
+height = 16.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ddhgx"]
+radius = 25.0
+
+[sub_resource type="SphereMesh" id="SphereMesh_jer5u"]
+radius = 6.0
+height = 29.95
+
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("SpawnPos", "followMouse") groups=["Player"]]
+collision_layer = 64
+collision_mask = 65
+script = ExtResource("1_4o0ll")
+SpawnPos = NodePath("SpawnPos")
+followMouse = NodePath("FollowMouse")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_oamh7")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-2, 0)
+texture = ExtResource("2_sxbqn")
+
+[node name="SpawnPos" type="Node2D" parent="."]
+position = Vector2(24, 0)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+scale = Vector2(1.085, 1.085)
+shape = SubResource("CapsuleShape2D_oamh7")
+
+[node name="FollowMouse" type="Area2D" parent="."]
+position = Vector2(355, -10)
+scale = Vector2(0.87491, 0.87491)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="FollowMouse"]
+shape = SubResource("CircleShape2D_ddhgx")
+
+[node name="MeshInstance2D" type="MeshInstance2D" parent="FollowMouse"]
+modulate = Color(1, 1, 1, 0.0392157)
+scale = Vector2(4.13982, 1.73759)
+mesh = SubResource("SphereMesh_jer5u")
+texture = ExtResource("2_1gkc8")
+
+[node name="Bag" type="Node2D" parent="."]
+position = Vector2(-21, 0)
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="FollowMouse" to="." method="_on_follow_mouse_body_entered"]
+[connection signal="body_exited" from="FollowMouse" to="." method="_on_follow_mouse_body_exited"]
