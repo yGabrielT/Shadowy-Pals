@@ -1,23 +1,104 @@
-[gd_scene load_steps=35 format=3 uid="uid://c225n3c7ujd5y"]
+[gd_scene load_steps=37 format=3 uid="uid://c225n3c7ujd5y"]
 
 [ext_resource type="Script" path="res://Scripts/PlayerController.gd" id="1_4o0ll"]
-[ext_resource type="Texture2D" uid="uid://bnrwtvaqxdsm" path="res://icon.svg" id="2_1gkc8"]
 [ext_resource type="Texture2D" uid="uid://nloibwat26f1" path="res://Sprites/walkCycle.png" id="2_p76oq"]
 [ext_resource type="Texture2D" uid="uid://uwclmx23aud2" path="res://Sprites/idle.png" id="4_eh4i7"]
+[ext_resource type="Texture2D" uid="uid://dj24d1nnnm7iw" path="res://Sprites/Lockanim.png" id="5_i6o6w"]
 [ext_resource type="Texture2D" uid="uid://dleyxovqgmd0l" path="res://Sprites/freeze.png" id="5_sclc3"]
 [ext_resource type="Texture2D" uid="uid://dy8wqm3pa0yh0" path="res://Sprites/jump.png" id="6_wsvyn"]
 [ext_resource type="Texture2D" uid="uid://cdkhut1tol06s" path="res://Sprites/land.png" id="7_cstt4"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oamh7"]
-radius = 8.0
-height = 16.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hmbrs"]
+size = Vector2(10, 14.5)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ddhgx"]
 radius = 25.0
 
-[sub_resource type="SphereMesh" id="SphereMesh_jer5u"]
-radius = 6.0
-height = 29.95
+[sub_resource type="Animation" id="Animation_dy2gv"]
+resource_name = "lockmouse"
+length = 0.45
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mouse:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_i6o6w")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mouse:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mouse:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+}
+
+[sub_resource type="Animation" id="Animation_t3fxf"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("mouse:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_i6o6w")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("mouse:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [10]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("mouse:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vn8nx"]
+_data = {
+"RESET": SubResource("Animation_t3fxf"),
+"lockmouse": SubResource("Animation_dy2gv")
+}
 
 [sub_resource type="Animation" id="Animation_gbsm2"]
 length = 0.001
@@ -60,7 +141,7 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_62exs"]
 resource_name = "freeze"
-length = 0.35
+length = 0.4
 step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -225,9 +306,9 @@ tracks/2/keys = {
 
 [sub_resource type="Animation" id="Animation_ngr5j"]
 resource_name = "walk"
-length = 0.6
+length = 0.25
 loop_mode = 1
-step = 0.1
+step = 0.05
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -247,7 +328,7 @@ tracks/1/path = NodePath("Sprite2D:frame")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5),
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
@@ -345,7 +426,7 @@ states/land/position = Vector2(566, 218)
 states/walk/node = SubResource("AnimationNodeAnimation_ey7ni")
 states/walk/position = Vector2(550, 53)
 transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_ftcb1"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_st1ws"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_4y27k"), "idle", "jump", SubResource("AnimationNodeStateMachineTransition_dcvor"), "walk", "jump", SubResource("AnimationNodeStateMachineTransition_cxojo"), "jump", "land", SubResource("AnimationNodeStateMachineTransition_mqddu"), "land", "idle", SubResource("AnimationNodeStateMachineTransition_0un2l"), "land", "walk", SubResource("AnimationNodeStateMachineTransition_2auk4"), "idle", "freeze", SubResource("AnimationNodeStateMachineTransition_5q4vb"), "walk", "freeze", SubResource("AnimationNodeStateMachineTransition_45knr"), "freeze", "idle", SubResource("AnimationNodeStateMachineTransition_oj76p")]
-graph_offset = Vector2(-39, -52)
+graph_offset = Vector2(-81, -95)
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("SpawnPos", "followMouse") groups=["Player"]]
 collision_layer = 64
@@ -353,11 +434,13 @@ collision_mask = 65
 script = ExtResource("1_4o0ll")
 SPEED = 100.0
 JUMP_VELOCITY = -300.0
+bulletSpeed = 750
 SpawnPos = NodePath("SpawnPos")
 followMouse = NodePath("FollowMouse")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CapsuleShape2D_oamh7")
+position = Vector2(1, 0.5)
+shape = SubResource("RectangleShape2D_hmbrs")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-2, 0)
@@ -365,29 +448,31 @@ texture = ExtResource("2_p76oq")
 hframes = 2
 
 [node name="SpawnPos" type="Node2D" parent="."]
-position = Vector2(24, 0)
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-scale = Vector2(1.085, 1.085)
-shape = SubResource("CapsuleShape2D_oamh7")
+position = Vector2(1, 0.75)
+shape = SubResource("RectangleShape2D_hmbrs")
 
 [node name="FollowMouse" type="Area2D" parent="."]
-position = Vector2(355, -10)
-scale = Vector2(0.87491, 0.87491)
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="FollowMouse"]
 shape = SubResource("CircleShape2D_ddhgx")
 
-[node name="MeshInstance2D" type="MeshInstance2D" parent="FollowMouse"]
-modulate = Color(1, 1, 1, 0.0392157)
-scale = Vector2(4.13982, 1.73759)
-mesh = SubResource("SphereMesh_jer5u")
-texture = ExtResource("2_1gkc8")
+[node name="mouse" type="Sprite2D" parent="FollowMouse"]
+z_index = 1
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("5_i6o6w")
+hframes = 10
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FollowMouse"]
+libraries = {
+"": SubResource("AnimationLibrary_vn8nx")
+}
 
 [node name="Bag" type="Node2D" parent="."]
 position = Vector2(-6, 0)

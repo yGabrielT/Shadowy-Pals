@@ -16,8 +16,10 @@ var bagArray : Array
 var UI : Control 
 @onready var sprite := $Sprite2D
 @onready var animationTree := $AnimationTree
+@onready var animMouse := $FollowMouse/AnimationPlayer
 var isOnAir = false
 var froze;
+var wasFroze
 var initialSpawnpos : Vector2
 var initialBagPos : Vector2
 func _ready() -> void:
@@ -39,7 +41,9 @@ func _input(event: InputEvent) -> void:
 			SpawnPos.position = -initialSpawnpos
 			bag.position = -initialBagPos
 	if Input.is_action_just_released("shoot"):
-		shoot(event.position)
+		if event is InputEventMouse:
+			shoot(event.position)
+		
 	if Input.is_action_just_released("freeze"):
 		freeze()
 	if Input.is_action_just_released("restart"):
@@ -88,20 +92,26 @@ func shoot(mouse_pos : Vector2) -> void:
 		#shootInstance.z_index = z_index - 1
 		bagArray[last].reparent(get_parent())
 		bagArray[last].freeze = false
+		maskHide(bagArray[last])
 		bagArray[last].apply_impulse(((mouse_pos - self.global_position).normalized()) * bulletSpeed)
 		closestBody = bagArray[last]
 		bagArray[last].canFreeze = true
 		bagArray[last].canPick = true
 		bagArray.remove_at(last)
 	
-
+func maskHide(obj):
+	obj.set_collision_layer_value(2, false)
+	await get_tree().create_timer(.1).timeout
+	obj.set_collision_layer_value(2, true)
 func freeze():
 	if closestBody != null and closestBody.canFreeze:
 		AudioManager.freeze_sfx.play()
-		froze = true
+		
 		if !closestBody.freeze:
+			froze = true
 			closestBody.state = closestBody.SQUARE
 		else:
+			wasFroze = true
 			closestBody.state = closestBody.NORMAL
 		closestBody.freeze = !closestBody.freeze
 		closestBody.set_collision_layer_value(1, closestBody.freeze)
@@ -159,9 +169,12 @@ func updateAnimations():
 	if froze:
 		froze = false
 		animationTree["parameters/conditions/freeze"] = true
+		animMouse.play("lockmouse")
 	else:
 		animationTree["parameters/conditions/freeze"] = false
-	
+	if wasFroze:
+		wasFroze = false
+		animMouse.play("lockmouse",-1,-1,true)
 	
 func restart():
 	var current_scene_file = get_tree().current_scene.scene_file_path

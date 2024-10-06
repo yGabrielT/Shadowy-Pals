@@ -20,11 +20,11 @@ func _process(delta: float) -> void:
 			
 			normalSprite.visible = true;
 			squareSprite.visible = false;
-			normalcol.disabled = true
-			squarecol.disabled = false
+			normalcol.disabled = false
+			squarecol.disabled = true
 		SQUARE:
 			normalSprite.visible = false;
 			squareSprite.visible = true;
-			normalcol.disabled = false
-			squarecol.disabled = true
+			normalcol.disabled = true
+			squarecol.disabled = false
 			self.rotation = 0
