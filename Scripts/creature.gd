@@ -1,5 +1,6 @@
 extends RigidBody2D
 var canFreeze = true
+var canPick = true
 @onready var normalSprite :=$normal
 @onready var squareSprite :=$Square
 @onready var normalcol :=$normalCol
@@ -16,6 +17,7 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	match(state):
 		NORMAL:
+			
 			normalSprite.visible = true;
 			squareSprite.visible = false;
 			normalcol.disabled = true

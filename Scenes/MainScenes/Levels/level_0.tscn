@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://cs7acclhvnnni"]
+[gd_scene load_steps=10 format=4 uid="uid://cs7acclhvnnni"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_ygjnf"]
 [ext_resource type="PackedScene" uid="uid://c225n3c7ujd5y" path="res://Scenes/player.tscn" id="3_f6y1m"]
@@ -64,6 +64,9 @@ tile_size = Vector2i(8, 8)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_bdcuw")
 
+[sub_resource type="LabelSettings" id="LabelSettings_lds7b"]
+font_size = 9
+
 [node name="main" type="Node2D"]
 script = ExtResource("1_ygjnf")
 
@@ -87,6 +90,17 @@ position = Vector2(87, 105)
 position = Vector2(121, 90)
 
 [node name="UI" parent="." groups=["UI"] instance=ExtResource("5_6xklm")]
+
+[node name="Label" type="Label" parent="UI"]
+layout_mode = 0
+offset_left = 84.0
+offset_top = 29.0
+offset_right = 265.0
+offset_bottom = 74.0
+text = "Walk over pals to store them.
+[Mouse1] to shoot them
+[Mouse2] to transform them"
+label_settings = SubResource("LabelSettings_lds7b")
 
 [node name="Exit" parent="." instance=ExtResource("6_6refw")]
 position = Vector2(293, 148)

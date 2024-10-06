@@ -390,7 +390,7 @@ mesh = SubResource("SphereMesh_jer5u")
 texture = ExtResource("2_1gkc8")
 
 [node name="Bag" type="Node2D" parent="."]
-position = Vector2(-6, 0)
+position = Vector2(-7, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
